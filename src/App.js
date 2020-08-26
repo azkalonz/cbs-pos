@@ -1,17 +1,22 @@
+import { ThemeProvider } from "@material-ui/core";
 import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-function Test() {
-  return <div>test</div>;
-}
+import Home from "./screens/Home";
+import PageNotFound from "./screens/PageNotFound";
+import Theme from "./styles";
+import "./styles/style.css";
+
 function App() {
   return (
-    <BrowserRouter>
-      <Switch>
-        <Route exact path="/test" component={Test} />
-      </Switch>
-    </BrowserRouter>
+    <ThemeProvider theme={Theme}>
+      <BrowserRouter>
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/inventory" component={Home} />
+          <Route component={PageNotFound} />
+        </Switch>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 
