@@ -38,8 +38,13 @@ export function SearchProduct(props) {
     setFocused(true);
   };
   return (
-    <Box position="relative">
-      <Box position="relative">
+    <Box
+      position="relative"
+      style={props.style}
+      display="flex"
+      justifyContent="center"
+    >
+      <Box position="relative" display="flex" justifyContent="center">
         <TextField
           ref={searchRef}
           type="text"
@@ -49,16 +54,21 @@ export function SearchProduct(props) {
           onChange={handleChange}
           onFocus={() => onFocus()}
           onBlur={() => !search.length && setFocused(false)}
+          inputProps={{
+            style: {
+              height: 32,
+            },
+          }}
           style={{
+            height: 32,
             background: "#fff",
             maxWidth: !isFocused ? "70%" : "100%",
-            float: "right",
           }}
         />
         {isFocused && !!search.length && (
           <IconButton
             onClick={resetSearch}
-            style={{ position: "absolute", right: 0, top: 6, height: "100%" }}
+            style={{ position: "absolute", right: 0, top: 0, height: "100%" }}
           >
             <Icon>close</Icon>
           </IconButton>
@@ -71,7 +81,6 @@ export function SearchProduct(props) {
           bgcolor="#fff"
           component={Paper}
           top={50}
-          right={0}
         >
           <Box p={1}>
             <Typography className="title">Results</Typography>

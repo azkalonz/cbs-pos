@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import NavBar from "../components/NavBar";
 import Card, { CardContent } from "../components/Card";
 import { Box } from "@material-ui/core";
+import { connect } from "react-redux";
 
 function Home(props) {
   return (
@@ -17,4 +18,4 @@ function Home(props) {
   );
 }
 
-export default Home;
+export default connect((states) => ({ userInfo: states.userInfo }))(Home);

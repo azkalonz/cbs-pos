@@ -5,8 +5,15 @@ body {
   margin: 0;
   padding: 0;
 }
+.loader-transition {
+  transition: opacity 0.5s ease-out;
+}
 .title {
   font-weight: 700 !important;
+  white-space: pre;
+}
+.title-2 {
+  font-weight: 400 !important;
   white-space: pre;
 }
 .card {
@@ -17,13 +24,14 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-size: 500px;
+  background-size: 50%, 500px;
   margin: 10px;
   &.blue-green {
     background-image: linear-gradient(70deg, #1f86d8, #6a9636);
   }
   &.maroon-yellow {
-    background-image: linear-gradient(70deg, #7e1316, #ffb100);
+    background-image: url("/static/img/breadpattern2.png"),
+      linear-gradient(70deg, #7e1316, #ffb100);
   }
   & .content {
     text-align: center;
@@ -45,6 +53,6 @@ body {
   text-shadow: 0 1px 0px rgba(0, 0, 0, 0.271);
   & span {
     font-weight: 500;
-    font-family: 'Work Sans', sans-serif;
+    font-family: "Work Sans", sans-serif;
   }
 }

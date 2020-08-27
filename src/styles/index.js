@@ -1,6 +1,6 @@
 import { createMuiTheme } from "@material-ui/core";
 const TOOLBAR_HEIGHT = 60;
-const TEXTFIELD_HEIGHT = 34;
+const TEXTFIELD_HEIGHT = 50;
 const PRIMARY_COLOR = "#7e1316";
 const SECONDARY_COLOR = "#ffb100";
 const SELECTED_ITEM = "rgba(0,0,0,0.3)";
@@ -27,12 +27,18 @@ export default createMuiTheme({
     MuiTextField: {
       root: {
         height: TEXTFIELD_HEIGHT,
+        background: "#fff",
         transition: "all 0.2s ease-out",
         "& input": {
           paddingTop: 0,
           paddingBottom: 0,
           height: TEXTFIELD_HEIGHT,
         },
+      },
+    },
+    MuiPopover: {
+      root: {
+        marginTop: 45,
       },
     },
     MuiTypography: {
