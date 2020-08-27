@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Box, makeStyles } from "@material-ui/core";
 
-const NAVBAR_WIDTH = 340;
+const NAVBAR_WIDTH = 250;
 
 function LayoutProvider(props) {
   const [isNavOpen, setNavOpen] = useState(true);
@@ -11,7 +11,7 @@ function LayoutProvider(props) {
   const styles = useStyles();
   return (
     <React.Fragment>
-      <Box display="flex" height="100vh">
+      <Box display="flex" height="100vh" overflow="hidden">
         <Box className={[styles.navBar, isNavOpen ? "opened" : ""].join(" ")}>
           <props.navbar {...props} />
         </Box>
@@ -28,6 +28,7 @@ function LayoutProvider(props) {
 const useStyles = makeStyles((theme) => ({
   navBar: {
     width: NAVBAR_WIDTH,
+    minWidth: NAVBAR_WIDTH,
     overflow: "hidden",
     transition: "margin .4s ease-out",
     borderRight: "1px solid " + theme.palette.divider,

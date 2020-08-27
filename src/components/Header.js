@@ -1,20 +1,33 @@
-import { AppBar, Icon, IconButton, Toolbar } from "@material-ui/core";
+import {
+  AppBar,
+  Icon,
+  IconButton,
+  Toolbar,
+  Box,
+  Typography,
+} from "@material-ui/core";
 import React from "react";
 import { SearchProduct } from "./SearchInput";
+import { getCurrentMenu } from "./NavBar";
 
 function Header(props) {
   return (
     <AppBar
       variant="outlined"
       position="sticky"
-      style={{ background: "#fff", borderLeft: 0 }}
+      style={{ background: "#fff", borderLeft: 0, color: "#000" }}
     >
-      <Toolbar>
-        <IconButton onClick={props.nav.toggleNav}>
-          <Icon>menu</Icon>
-        </IconButton>
+      <Box component={Toolbar} display="flex" justifyContent="space-between">
+        <Box display="flex" alignItems="center">
+          <IconButton onClick={props.nav.toggleNav}>
+            <Icon>menu</Icon>
+          </IconButton>
+          <Typography className="title">
+            {getCurrentMenu(props.history.location.pathname)?.name}
+          </Typography>
+        </Box>
         <SearchProduct placeholder="Search Product" />
-      </Toolbar>
+      </Box>
     </AppBar>
   );
 }
