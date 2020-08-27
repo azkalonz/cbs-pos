@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const DOMAIN = "http://localhost:7878";
+const DOMAIN = "https://api.cebu-bakery-supply.com";
 const Api = {
   get: (ENDPOINT, params = {}) =>
     axios
