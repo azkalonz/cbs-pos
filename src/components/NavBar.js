@@ -13,12 +13,11 @@ import Scrollbar from "./Scrollbar";
 const createMenu = (name, path) => ({ name, path });
 
 export const getCurrentMenu = (path) => {
-  return dashboardMenu.find((q) => q.path === path);
+  path = path.split("/")[1];
+  path = "/" + path;
+  return dashboardMenu.find((q) => q.path.indexOf(path) >= 0);
 };
-export const dashboardMenu = [
-  createMenu("Dashboard", "/"),
-  createMenu("Inventory", "/inventory"),
-];
+export const dashboardMenu = [createMenu("Products", ["/products", "/"])];
 function NavBar(props) {
   const { pathname } = props.history?.location || {};
   return (
@@ -36,8 +35,8 @@ function NavBar(props) {
                 button
                 key={i}
                 divider
-                selected={pathname === m.path}
-                onClick={() => props.history?.push(m.path)}
+                selected={getCurrentMenu(pathname)?.name === m.name}
+                onClick={() => props.history?.push(m.path[0])}
               >
                 <ListItemText primary={m.name} />
               </ListItem>

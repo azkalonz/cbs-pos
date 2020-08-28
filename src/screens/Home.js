@@ -13,6 +13,9 @@ function Home(props) {
         <Card color="maroon-yellow">
           <CardContent primary="2000" secondary="Total Sales" />
         </Card>
+        <Card color="blue-green">
+          <CardContent primary="2000" secondary="Total Sales" />
+        </Card>
       </Box>
     </LayoutProvider>
   );

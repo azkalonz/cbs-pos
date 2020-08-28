@@ -1,6 +1,10 @@
 import axios from "axios";
 
-const DOMAIN = "https://api.cebu-bakery-supply.com";
+const dev = false;
+
+const DOMAIN = dev
+  ? "http://localhost:7878"
+  : "https://api.cebu-bakery-supply.com";
 const Api = {
   get: (ENDPOINT, params = {}) =>
     axios
@@ -11,6 +15,7 @@ const Api = {
         },
         cancelToken: new axios.CancelToken(function executor(c) {
           let url = window.location.pathname;
+          params.cancelToken && params.cancelToken(c);
           window.onclick = () => {
             if (url !== window.location.pathname) {
               c();

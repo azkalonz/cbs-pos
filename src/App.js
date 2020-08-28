@@ -1,6 +1,8 @@
 import { Box, ThemeProvider, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import Product from "./screens/Product";
+import Products from "./screens/Products";
 import Home from "./screens/Home";
 import Login from "./screens/Login";
 import PageNotFound from "./screens/PageNotFound";
@@ -8,6 +10,7 @@ import Theme from "./styles";
 import "./styles/style.css";
 import Api from "./utils/api";
 import store from "./utils/store";
+import Loader from "./components/Loader";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -30,8 +33,10 @@ function App() {
         {!loading && (
           <BrowserRouter>
             <Switch>
-              <Route exact path="/" component={Home} />
-              <Route exact path="/inventory" component={Home} />
+              <Route exact path="/" component={Products} />
+              <Route exact path="/products" component={Products} />
+              <Route exact path="/products/:product_id?" component={Product} />
+              <Route exact path="/dashboard" component={Home} />
               <Route
                 exact
                 path="/login"
@@ -60,14 +65,7 @@ function App() {
               width="100"
               style={{ padding: 5, position: "relative", zIndex: 2 }}
             />
-            <Box display="flex" alignItems="center">
-              <img
-                src="/static/img/cake.gif"
-                width="140"
-                style={{ margin: "-50px" }}
-              />
-              <Typography className="title">Loading app...</Typography>
-            </Box>
+            <Loader />
           </Box>
         )}
       </Box>

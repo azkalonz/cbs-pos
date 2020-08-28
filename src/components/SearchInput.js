@@ -11,8 +11,19 @@ import {
   Slide,
   IconButton,
   Icon,
+  CircularProgress,
 } from "@material-ui/core";
-import React, { useState, useRef, useCallback, useMemo } from "react";
+import React, {
+  useState,
+  useRef,
+  useCallback,
+  useMemo,
+  useEffect,
+} from "react";
+import fetchData from "../utils/fetch";
+import Api from "../utils/api";
+import Scrollbar from "../components/Scrollbar";
+import Loader from "./Loader";
 
 function SearchInput(props) {
   return <TextField type="text" variant="outlined" {...props} />;
@@ -21,6 +32,8 @@ export function SearchProduct(props) {
   const searchRef = useRef();
   const [search, setSearch] = useState("");
   const [isFocused, setFocused] = useState(false);
+  const [result, setResult] = useState([]);
+  const [loading, setLoading] = useState(true);
   const input = useMemo(() => searchRef?.current?.querySelector("input"), [
     searchRef,
     search,
@@ -37,11 +50,54 @@ export function SearchProduct(props) {
   const onFocus = () => {
     setFocused(true);
   };
+  const searchProduct = async (query) => {
+    fetchData({
+      before: () => setLoading(true),
+      send: async () =>
+        await Api.get("/products?search=" + query, {
+          cancelToken: (cancel) => {
+            window.cancelToken = cancel;
+          },
+        }),
+      after: (data) => {
+        setLoading(false);
+        setResult(data || []);
+        console.log(data);
+        window.cancelToken = null;
+      },
+    });
+  };
+  const handleSearch = useCallback(
+    (query) => {
+      if (query) {
+        setLoading(true);
+        if (window.cancelToken) window.cancelToken();
+        window.clearTimeout(window.searching);
+        window.searching = setTimeout(() => {
+          searchProduct(query);
+        }, 1000);
+      }
+    },
+    [loading, searchProduct]
+  );
+  const onExit = () => {
+    window.clearTimeout(window.searching);
+    if (window.cancelToken) {
+      window.cancelToken();
+      window.cancelToken = null;
+    }
+    setResult([]);
+  };
+  const productDetails = useCallback((product) => {
+    props.history.push("/products/" + product.product_id);
+    resetSearch();
+  }, []);
   return (
     <Box
       position="relative"
-      style={props.style}
+      style={{ ...(props.style || {}), zIndex: 2 }}
       display="flex"
+      className={props.fullWidth && isFocused ? "full-width-search" : ""}
       justifyContent="center"
     >
       <Box position="relative" display="flex" justifyContent="center">
@@ -51,7 +107,10 @@ export function SearchProduct(props) {
           variant="outlined"
           {...props}
           fullWidth
-          onChange={handleChange}
+          onChange={(e) => {
+            handleChange(e);
+            handleSearch(e.target.value);
+          }}
           onFocus={() => onFocus()}
           onBlur={() => !search.length && setFocused(false)}
           inputProps={{
@@ -74,28 +133,59 @@ export function SearchProduct(props) {
           </IconButton>
         )}
       </Box>
-      <Slide in={!!search.length}>
+      <Slide in={!!search.length} onExited={() => onExit()}>
         <Box
           position="absolute"
-          width="150%"
+          width={!props.fullWidth ? "150%" : "100%"}
           bgcolor="#fff"
           component={Paper}
           top={50}
         >
-          <Box p={1}>
-            <Typography className="title">Results</Typography>
-          </Box>
-          <Divider />
-          <List>
-            {new Array(4).fill(1).map((a, i) => (
-              <ListItem button key={i}>
-                <ListItemText
-                  primary="Product Name"
-                  primaryTypographyProps={{ style: { color: "#222" } }}
-                />
-              </ListItem>
-            ))}
-          </List>
+          {!loading && (
+            <React.Fragment>
+              <Box p={1}>
+                <Typography className="title">Results</Typography>
+              </Box>
+              <Divider />
+              {!!result.length && (
+                <Box maxHeight="70vh" overflow="auto">
+                  {result.map((product, i) => {
+                    if (!product) return null;
+                    const { product_name } = product;
+                    return (
+                      <ListItem
+                        button
+                        key={i}
+                        onClick={() => productDetails(product)}
+                      >
+                        <ListItemText
+                          primary={product_name}
+                          primaryTypographyProps={{
+                            style: { color: "#222" },
+                          }}
+                        />
+                      </ListItem>
+                    );
+                  })}
+                </Box>
+              )}
+              {!result.length && (
+                <Box p={3} textAlign="center">
+                  <Typography className="title2">Nothing found</Typography>
+                </Box>
+              )}
+            </React.Fragment>
+          )}
+          {loading && (
+            <Box
+              overflow="hidden"
+              style={{ userSelect: "none", pointerEvents: "none" }}
+            >
+              <Box p={3}>
+                <Loader label="Searching..." />
+              </Box>
+            </Box>
+          )}
         </Box>
       </Slide>
       <Backdrop
