@@ -4,11 +4,20 @@ import Header from "../components/Header";
 import NavBar from "../components/NavBar";
 import fetchData from "../utils/fetch";
 import Api from "../utils/api";
-import { Box, Typography, IconButton, Icon } from "@material-ui/core";
+import {
+  Box,
+  Typography,
+  IconButton,
+  Icon,
+  useTheme,
+  useMediaQuery,
+} from "@material-ui/core";
 import Loader from "../components/Loader";
 import Card, { CardContent } from "../components/Card";
 
 function Product(props) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const { product_id } = props.match.params;
   const [product, setProduct] = useState({});
   const [loading, setLoading] = useState(true);
@@ -49,7 +58,12 @@ function Product(props) {
               </Typography>
             </Box>
           </Box>
-          <Box display="flex">
+          <Box
+            display="flex"
+            flexDirection={isMobile ? "column" : "row"}
+            alignItems="center"
+            justifyContent="center"
+          >
             <Card color="maroon-yellow">
               <CardContent
                 primary={product.quantity + " pcs"}

@@ -7,7 +7,7 @@ const NAVBAR_WIDTH = 250;
 function LayoutProvider(props) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const [isNavOpen, setNavOpen] = useState(true);
+  const [isNavOpen, setNavOpen] = useState(isMobile);
   const toggleNav = () => {
     setNavOpen(!isNavOpen);
   };
