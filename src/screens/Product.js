@@ -23,7 +23,7 @@ function Product(props) {
             data = {
               ...data,
               quantity: !data.quantity ? 0 : data.quantity,
-              price: "Php " + data.price.toFixed(2),
+              price: "Php " + (parseInt(data.price) || 0).toFixed(2),
             };
           }
           setProduct(data || {});

@@ -19,7 +19,7 @@ function Products(props) {
           data?.map((q) => ({
             ...q,
             quantity: !q.quantity ? 0 : q.quantity,
-            price: "Php " + q.price.toFixed(2),
+            price: "Php " + (parseInt(q.price) || 0).toFixed(2),
           })) || []
         );
         setLoading(false);
