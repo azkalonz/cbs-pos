@@ -19,7 +19,7 @@ function Products(props) {
           data?.map((q) => ({
             ...q,
             quantity: !q.quantity ? 0 : q.quantity,
-            price: "Php " + (parseInt(q.price) || 0).toFixed(2),
+            price: parseInt(q.price) || 0,
           })) || []
         );
         setLoading(false);
@@ -33,7 +33,16 @@ function Products(props) {
           { title: "ID", field: "product_id" },
           { title: "Name", field: "product_name" },
           { title: "Quantity", field: "quantity" },
-          { title: "Price", field: "price" },
+          {
+            title: "Price",
+            field: "price",
+            type: "currency",
+            currencySetting: {
+              currencyCode: "PHP",
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 2,
+            },
+          },
         ]}
         data={products}
         isLoading={loading}
