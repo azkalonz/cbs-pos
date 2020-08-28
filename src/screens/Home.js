@@ -1,14 +1,11 @@
-import React from "react";
-import LayoutProvider from "../components/LayoutProvider";
-import Header from "../components/Header";
-import NavBar from "../components/NavBar";
-import Card, { CardContent } from "../components/Card";
 import { Box } from "@material-ui/core";
+import React from "react";
 import { connect } from "react-redux";
+import Card, { CardContent } from "../components/Card";
 
 function Home(props) {
   return (
-    <LayoutProvider header={Header} navbar={NavBar} {...props}>
+    <React.Fragment>
       <Box display="flex" width="100%" overflow="auto">
         <Card color="maroon-yellow">
           <CardContent primary="2000" secondary="Total Sales" />
@@ -17,7 +14,7 @@ function Home(props) {
           <CardContent primary="2000" secondary="Total Sales" />
         </Card>
       </Box>
-    </LayoutProvider>
+    </React.Fragment>
   );
 }
 

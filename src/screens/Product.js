@@ -1,19 +1,16 @@
-import React, { useEffect, useState } from "react";
-import LayoutProvider from "../components/LayoutProvider";
-import Header from "../components/Header";
-import NavBar from "../components/NavBar";
-import fetchData from "../utils/fetch";
-import Api from "../utils/api";
 import {
   Box,
-  Typography,
-  IconButton,
   Icon,
-  useTheme,
+  IconButton,
+  Typography,
   useMediaQuery,
+  useTheme,
 } from "@material-ui/core";
-import Loader from "../components/Loader";
+import React, { useEffect, useState } from "react";
 import Card, { CardContent } from "../components/Card";
+import Loader from "../components/Loader";
+import Api from "../utils/api";
+import fetchData from "../utils/fetch";
 
 function Product(props) {
   const theme = useTheme();
@@ -44,7 +41,7 @@ function Product(props) {
     }
   }, [product_id]);
   return (
-    <LayoutProvider header={Header} navbar={NavBar} {...props}>
+    <React.Fragment>
       {!loading && product.product_id && (
         <React.Fragment>
           <Box p={2} display="flex" alignItems="center">
@@ -87,7 +84,7 @@ function Product(props) {
           <Loader label="Loading product..." />
         </Box>
       )}
-    </LayoutProvider>
+    </React.Fragment>
   );
 }
 

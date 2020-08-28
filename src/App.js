@@ -11,6 +11,9 @@ import "./styles/style.css";
 import Api from "./utils/api";
 import store from "./utils/store";
 import Loader from "./components/Loader";
+import LayoutProvider from "./components/LayoutProvider";
+import Header from "./components/Header";
+import NavBar from "./components/NavBar";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -32,20 +35,26 @@ function App() {
       <Box className="loader-transition" style={{ opacity: loading ? 0 : 1 }}>
         {!loading && (
           <BrowserRouter>
-            <Switch>
-              <Route exact path="/" component={Products} />
-              <Route exact path="/products" component={Products} />
-              <Route exact path="/products/:product_id?" component={Product} />
-              <Route exact path="/dashboard" component={Home} />
-              <Route
-                exact
-                path="/login"
-                render={(p) => (
-                  <Login setLoading={(l) => setLoading(l)} {...p} />
-                )}
-              />
-              <Route component={PageNotFound} />
-            </Switch>
+            <LayoutProvider header={Header} navbar={NavBar}>
+              <Switch>
+                <Route exact path="/" component={Products} />
+                <Route exact path="/products" component={Products} />
+                <Route
+                  exact
+                  path="/products/:product_id?"
+                  component={Product}
+                />
+                <Route exact path="/dashboard" component={Home} />
+                <Route
+                  exact
+                  path="/login"
+                  render={(p) => (
+                    <Login setLoading={(l) => setLoading(l)} {...p} />
+                  )}
+                />
+                <Route component={PageNotFound} />
+              </Switch>
+            </LayoutProvider>
           </BrowserRouter>
         )}
       </Box>

@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Box, makeStyles, useTheme, useMediaQuery } from "@material-ui/core";
 import Scrollbar from "./Scrollbar";
+import { useHistory } from "react-router-dom";
 
 const NAVBAR_WIDTH = 250;
 
 function LayoutProvider(props) {
   const theme = useTheme();
+  const history = useHistory();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [isNavOpen, setNavOpen] = useState(isMobile);
   const toggleNav = () => {
@@ -23,11 +25,11 @@ function LayoutProvider(props) {
     <React.Fragment>
       <Box display="flex" height="100vh" overflow="hidden">
         <Box className={[styles.navBar, isNavOpen ? "opened" : ""].join(" ")}>
-          <props.navbar {...props} />
+          <props.navbar history={history} />
         </Box>
         <Box width="100%" display="flex" flexDirection="column">
           <Box>
-            <props.header nav={{ toggleNav }} {...props} />
+            <props.header nav={{ toggleNav }} history={history} />
           </Box>
           <Box height="100%" overflow="auto">
             <Scrollbar autoHide>
