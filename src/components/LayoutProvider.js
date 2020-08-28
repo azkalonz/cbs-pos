@@ -10,6 +10,7 @@ function LayoutProvider(props) {
   const history = useHistory();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [isNavOpen, setNavOpen] = useState(isMobile);
+  const { pathname } = history.location;
   const toggleNav = () => {
     setNavOpen(!isNavOpen);
   };
@@ -21,7 +22,9 @@ function LayoutProvider(props) {
       setNavOpen(true);
     }
   }, [isMobile]);
-  return (
+  return props.ignore.indexOf(pathname) >= 0 ? (
+    props.children
+  ) : (
     <React.Fragment>
       <Box display="flex" height="100vh" overflow="hidden">
         <Box className={[styles.navBar, isNavOpen ? "opened" : ""].join(" ")}>

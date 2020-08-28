@@ -35,7 +35,7 @@ function App() {
       <Box className="loader-transition" style={{ opacity: loading ? 0 : 1 }}>
         {!loading && (
           <BrowserRouter>
-            <LayoutProvider header={Header} navbar={NavBar}>
+            <LayoutProvider header={Header} navbar={NavBar} ignore={["/login"]}>
               <Switch>
                 <Route exact path="/" component={Products} />
                 <Route exact path="/products" component={Products} />
