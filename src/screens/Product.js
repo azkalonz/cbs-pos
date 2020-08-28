@@ -57,7 +57,7 @@ function Product(props) {
               />
             </Card>
             <Card color="blue-green">
-              <CardContent primary={product.price} secondary="Quantity" />
+              <CardContent primary={product.price} secondary="Price" />
             </Card>
           </Box>
         </React.Fragment>
