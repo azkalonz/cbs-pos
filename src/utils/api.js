@@ -1,8 +1,6 @@
 import axios from "axios";
 
-const dev = false;
-
-const DOMAIN = dev ? "http://localhost:7878" : "https://site.test";
+const DOMAIN = window.Config.API.domain;
 const Api = {
   get: (ENDPOINT, params = {}) =>
     axios

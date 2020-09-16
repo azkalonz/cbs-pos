@@ -27,7 +27,9 @@ function NavBar(props) {
     <Box display="flex" flexDirection="column" height="100%">
       <Toolbar disableGutters>
         <img src="/static/logo.png" height="70%" style={{ padding: 5 }} />
-        <Typography className="title">CEBU BAKERY SUPPLY</Typography>
+        <Typography className="title">
+          {window.Config.appname || "CEBU BAKERY SUPPLY"}
+        </Typography>
       </Toolbar>
       <Divider />
       <Box overflow="auto" height="100%" className="nav-list">
