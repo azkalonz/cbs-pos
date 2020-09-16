@@ -10,10 +10,15 @@ function LayoutProvider(props) {
   const history = useHistory();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [isNavOpen, setNavOpen] = useState(isMobile);
-  const { pathname } = history.location;
+  const [pathname, setPathname] = useState(history.location?.pathname);
   const toggleNav = () => {
     setNavOpen(!isNavOpen);
   };
+  useEffect(() => {
+    history.listen((location, action) => {
+      setPathname(location.pathname);
+    });
+  }, []);
   const styles = useStyles();
   useEffect(() => {
     if (isMobile) {
@@ -36,7 +41,17 @@ function LayoutProvider(props) {
           </Box>
           <Box height="100%" overflow="auto">
             <Scrollbar autoHide>
-              <Box p={2}>{props.children}</Box>
+              <Box p={2}>
+                {React.Children.map(props.children, (child) => {
+                  const props = {
+                    pathname,
+                  };
+                  if (React.isValidElement(child)) {
+                    return React.cloneElement(child, props);
+                  }
+                  return child;
+                })}
+              </Box>
             </Scrollbar>
           </Box>
         </Box>

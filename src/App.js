@@ -14,6 +14,8 @@ import Loader from "./components/Loader";
 import LayoutProvider from "./components/LayoutProvider";
 import Header from "./components/Header";
 import NavBar from "./components/NavBar";
+import Sales from "./screens/Sales";
+import Sale from "./screens/Sale";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -39,11 +41,13 @@ function App() {
               <Switch>
                 <Route exact path="/" component={Products} />
                 <Route exact path="/products" component={Products} />
+                <Route exact path="/sales" component={Sales} />
                 <Route
                   exact
                   path="/products/:product_id?"
                   component={Product}
                 />
+                <Route exact path="/sales/:sales_id?" component={Sale} />
                 <Route exact path="/dashboard" component={Home} />
                 <Route
                   exact

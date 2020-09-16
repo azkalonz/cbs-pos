@@ -17,7 +17,10 @@ export const getCurrentMenu = (path) => {
   path = "/" + path;
   return dashboardMenu.find((q) => q.path.indexOf(path) >= 0);
 };
-export const dashboardMenu = [createMenu("Products", ["/products", "/"])];
+export const dashboardMenu = [
+  createMenu("Products", ["/products", "/"]),
+  createMenu("Sales", ["/sales"]),
+];
 function NavBar(props) {
   const { pathname } = props.history?.location || {};
   return (

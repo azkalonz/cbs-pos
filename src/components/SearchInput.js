@@ -61,7 +61,12 @@ export function SearchProduct(props) {
         }),
       after: (data) => {
         setLoading(false);
-        setResult(data || []);
+        setResult(
+          data?.map((q) => ({
+            ...q,
+            product_name: q.product_name?.replace("&quot;", '"'),
+          })) || []
+        );
         console.log(data);
         window.cancelToken = null;
       },

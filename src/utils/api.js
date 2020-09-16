@@ -2,9 +2,7 @@ import axios from "axios";
 
 const dev = false;
 
-const DOMAIN = dev
-  ? "http://localhost:7878"
-  : "https://api.cebu-bakery-supply.com";
+const DOMAIN = dev ? "http://localhost:7878" : "https://site.test";
 const Api = {
   get: (ENDPOINT, params = {}) =>
     axios

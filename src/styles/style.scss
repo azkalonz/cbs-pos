@@ -25,6 +25,19 @@ body {
   align-items: center;
   justify-content: center;
   margin: 10px;
+  &:hover .actions {
+    opacity: 1;
+  }
+  & .actions {
+    position: absolute;
+    right:0;
+    top:0;
+    user-select: none;
+    transition: all .3s ease-out;
+    border-radius: 0px 0px 0px 10px;
+    opacity: 0;
+    background: rgba(255, 255, 255, 0.746);
+  }
   &.blue-green {
     background-image: url("/static/img/breadpattern2.png"),
       linear-gradient(70deg, #1f86d8, #6a9636);

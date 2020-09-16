@@ -11,6 +11,7 @@ import Card, { CardContent } from "../components/Card";
 import Loader from "../components/Loader";
 import Api from "../utils/api";
 import fetchData from "../utils/fetch";
+import formatter from "../utils/formatter";
 
 function Product(props) {
   const theme = useTheme();
@@ -20,6 +21,7 @@ function Product(props) {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     let id = parseInt(product_id);
+    console.log(id, product_id);
     if (!isNaN(id)) {
       fetchData({
         before: () => setLoading(true),
@@ -29,7 +31,9 @@ function Product(props) {
             data = {
               ...data,
               quantity: !data.quantity ? 0 : data.quantity,
-              price: "Php " + (parseInt(data.price) || 0).toFixed(2),
+              price: data.price,
+              product_name: data.product_name?.replace("&quot;", '"'),
+              long_description: data.long_description?.replace("&quot;", '"'),
             };
           }
           setProduct(data || {});
@@ -68,7 +72,10 @@ function Product(props) {
               />
             </Card>
             <Card color="blue-green">
-              <CardContent primary={product.price} secondary="Price" />
+              <CardContent
+                primary={formatter.format(product.price)}
+                secondary="Price"
+              />
             </Card>
           </Box>
         </React.Fragment>

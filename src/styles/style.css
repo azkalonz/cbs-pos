@@ -37,6 +37,25 @@ body {
   margin: 10px;
 }
 
+.card:hover .actions {
+  opacity: 1;
+}
+
+.card .actions {
+  position: absolute;
+  right: 0;
+  top: 0;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  -webkit-transition: all .3s ease-out;
+  transition: all .3s ease-out;
+  border-radius: 0px 0px 0px 10px;
+  opacity: 0;
+  background: rgba(255, 255, 255, 0.746);
+}
+
 .card.blue-green {
   background-image: url("/static/img/breadpattern2.png"), linear-gradient(70deg, #1f86d8, #6a9636);
   background-size: 50%, 500px;
