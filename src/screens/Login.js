@@ -18,6 +18,7 @@ import {
 } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 import Api from "../utils/api";
+import { getConfig } from "../App";
 
 const queryString = require("query-string");
 function Alert(props) {
@@ -103,7 +104,9 @@ function LoginContainer(props) {
   return (
     <React.Fragment>
       <Box width="100%" display="flex" justifyContent="center" marginBottom={2}>
-        {isMobile && <img src="/static/logo.png" width={60} />}
+        {isMobile && (
+          <img src={getConfig().logo || "/static/logo.png"} width={60} />
+        )}
       </Box>
       <Typography
         style={{
@@ -115,7 +118,7 @@ function LoginContainer(props) {
           position: "relative",
         }}
       >
-        Sign in to Cebu Bakery Supply
+        Sign in to {getConfig().appname || "Cebu Bakery Supply"}
       </Typography>
       <br />
       {window.login_error && (
@@ -204,7 +207,10 @@ const useStyles = makeStyles((theme) => ({
     "& .logo": {
       width: "60%",
       height: "60%",
-      background: "url(/static/logo.png) no-repeat center",
+      background:
+        "url(" +
+        (getConfig().logo || "/static/logo.png") +
+        ") no-repeat center",
       backgroundSize: "100% auto",
     },
   },

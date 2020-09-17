@@ -1,6 +1,7 @@
 import axios from "axios";
+import { getConfig } from "../App";
 
-const DOMAIN = window.Config.API.domain;
+const DOMAIN = getConfig().API.domain;
 const Api = {
   get: (ENDPOINT, params = {}) =>
     axios

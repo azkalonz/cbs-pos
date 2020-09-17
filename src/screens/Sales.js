@@ -1,5 +1,5 @@
 import MaterialTable from "material-table";
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { connect } from "react-redux";
 import Api from "../utils/api";
 import fetchData from "../utils/fetch";
@@ -12,9 +12,11 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
+  Chip,
 } from "@material-ui/core";
 import formatter, { UNIXtoDate, dateToUNIX } from "../utils/formatter";
 import Card, { CardContent } from "../components/Card";
+import { getConfig } from "../App";
 const qs = require("query-string");
 const momentRange = require("moment-range");
 momentRange.extendMoment(moment);
@@ -65,6 +67,35 @@ function Sales(props) {
     },
     [getFilteredSales]
   );
+  const defaultHeaders = useMemo(
+    () => [
+      { id: 1, title: "Sales ID", field: "sales_id", filtering: false },
+      { id: 5, title: "Note", field: "note", filtering: false },
+      {
+        id: 2,
+        title: "Description",
+        field: "description",
+      },
+      {
+        id: 3,
+        title: "Amount",
+        field: "amount",
+        type: "currency",
+        currencySetting: {
+          currencyCode: "PHP",
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 2,
+        },
+      },
+      {
+        id: 4,
+        title: "Date",
+        field: "entry_date",
+        type: "date-time",
+      },
+    ],
+    []
+  );
   useEffect(() => {
     fetchData({
       before: () => setLoading(true),
@@ -74,7 +105,7 @@ function Sales(props) {
           data?.map((q) => ({
             ...q,
             entry_date_orig: q.entry_date,
-            entry_date: moment(q.entry_date).format("LL | hh:mm A"),
+            entry_date: moment(q.entry_date).format("LL (hh:mm A)"),
           })) || []
         );
         setLoading(false);
@@ -107,18 +138,27 @@ function Sales(props) {
         </DialogContent>
       </Dialog>
       <Box display="flex" width="100%" overflow="auto">
-        <Card color="blue-green">
-          <CardContent
-            primary={formatter.format(salesByMethod("Cash"))}
-            secondary="Cash"
-          />
-        </Card>
-        <Card color="blue-green">
-          <CardContent
-            primary={formatter.format(salesByMethod("Debit Card"))}
-            secondary="Debit Card"
-          />
-        </Card>
+        {getConfig().sales?.cards?.methods?.map((q, i) => (
+          <Card color="blue-green" key={i}>
+            <CardContent
+              primary={
+                <React.Fragment>
+                  <Chip
+                    label={
+                      moment(dateRange.from).format("MMM D") +
+                      " - " +
+                      moment(dateRange.to).format("MMM D")
+                    }
+                  />
+                  <Typography variant="h5" style={{ fontWeight: 600 }}>
+                    {formatter.format(salesByMethod(q.key))}
+                  </Typography>
+                </React.Fragment>
+              }
+              secondary={q.value}
+            />
+          </Card>
+        ))}
       </Box>
       <Box p={2}>
         <Box
@@ -142,32 +182,7 @@ function Sales(props) {
           </Box>
         </Box>
         <MaterialTable
-          columns={[
-            { id: 1, title: "Sales ID", field: "sales_id", filtering: false },
-            { id: 5, title: "Note", field: "note", filtering: false },
-            {
-              id: 2,
-              title: "Description",
-              field: "description",
-            },
-            {
-              id: 3,
-              title: "Amount",
-              field: "amount",
-              type: "currency",
-              currencySetting: {
-                currencyCode: "PHP",
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 2,
-              },
-            },
-            {
-              id: 4,
-              title: "Date",
-              field: "entry_date",
-              type: "date-time",
-            },
-          ]}
+          columns={defaultHeaders}
           data={getFilteredSales()}
           isLoading={loading}
           title="sales"

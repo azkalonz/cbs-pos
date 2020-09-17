@@ -12,6 +12,7 @@ import Loader from "../components/Loader";
 import Api from "../utils/api";
 import fetchData from "../utils/fetch";
 import formatter from "../utils/formatter";
+import { Product as ProductUtil } from "../utils/products";
 
 function Product(props) {
   const theme = useTheme();
@@ -36,7 +37,9 @@ function Product(props) {
               long_description: data.long_description?.replace("&quot;", '"'),
             };
           }
-          setProduct(data || {});
+          if (!ProductUtil.isHidden(data || {})) {
+            setProduct(data || {});
+          }
           setLoading(false);
         },
       });

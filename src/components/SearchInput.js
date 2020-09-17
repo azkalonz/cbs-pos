@@ -24,6 +24,7 @@ import fetchData from "../utils/fetch";
 import Api from "../utils/api";
 import Scrollbar from "../components/Scrollbar";
 import Loader from "./Loader";
+import { Product } from "../utils/products";
 
 function SearchInput(props) {
   return <TextField type="text" variant="outlined" {...props} />;
@@ -62,10 +63,12 @@ export function SearchProduct(props) {
       after: (data) => {
         setLoading(false);
         setResult(
-          data?.map((q) => ({
-            ...q,
-            product_name: q.product_name?.replace("&quot;", '"'),
-          })) || []
+          Product.ignore(
+            data?.map((q) => ({
+              ...q,
+              product_name: q.product_name?.replace("&quot;", '"'),
+            })) || []
+          )
         );
         console.log(data);
         window.cancelToken = null;

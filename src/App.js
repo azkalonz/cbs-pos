@@ -17,6 +17,10 @@ import NavBar from "./components/NavBar";
 import Sales from "./screens/Sales";
 import Sale from "./screens/Sale";
 
+export function getConfig() {
+  return window.Config;
+}
+
 function App() {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -74,7 +78,7 @@ function App() {
             style={{ userSelect: "none", pointerEvents: "none" }}
           >
             <img
-              src="/static/logo.png"
+              src={getConfig().logo || "/static/logo.png"}
               width="100"
               style={{ padding: 5, position: "relative", zIndex: 2 }}
             />

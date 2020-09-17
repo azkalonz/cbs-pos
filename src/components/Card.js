@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Box, Paper, Typography, CircularProgress } from "@material-ui/core";
+import {
+  Box,
+  Paper,
+  Typography,
+  CircularProgress,
+  Grow,
+} from "@material-ui/core";
 
 export function CardContent(props) {
   return (
@@ -18,16 +24,18 @@ export default function Card(props) {
     if (props.onLoad) props.onLoad(setLoading);
   }, [props.onLoad]);
   return (
-    <Box
-      component={Paper}
-      className={["card", props.color].join(" ")}
-      style={{ width: props.width, position: "relative" }}
-    >
-      {!loading && props.actions && (
-        <Box className="actions">{props.actions}</Box>
-      )}
-      {loading && <CircularProgress />}
-      {!loading && props.children}
-    </Box>
+    <Grow in={true}>
+      <Box
+        component={Paper}
+        className={["card", props.color].join(" ")}
+        style={{ width: props.width, position: "relative" }}
+      >
+        {!loading && props.actions && (
+          <Box className="actions">{props.actions}</Box>
+        )}
+        {loading && <CircularProgress />}
+        {!loading && props.children}
+      </Box>
+    </Grow>
   );
 }

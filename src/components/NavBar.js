@@ -9,6 +9,7 @@ import {
   Divider,
 } from "@material-ui/core";
 import Scrollbar from "./Scrollbar";
+import { getConfig } from "../App";
 
 const createMenu = (name, path) => ({ name, path });
 
@@ -26,9 +27,13 @@ function NavBar(props) {
   return (
     <Box display="flex" flexDirection="column" height="100%">
       <Toolbar disableGutters>
-        <img src="/static/logo.png" height="70%" style={{ padding: 5 }} />
+        <img
+          src={getConfig().logo || "/static/logo.png"}
+          height="70%"
+          style={{ padding: 5 }}
+        />
         <Typography className="title">
-          {window.Config.appname || "CEBU BAKERY SUPPLY"}
+          {getConfig().appname || "CEBU BAKERY SUPPLY"}
         </Typography>
       </Toolbar>
       <Divider />

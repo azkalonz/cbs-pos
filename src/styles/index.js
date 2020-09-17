@@ -1,8 +1,9 @@
 import { createMuiTheme } from "@material-ui/core";
+import { getConfig } from "../App";
 const TOOLBAR_HEIGHT = 60;
 const TEXTFIELD_HEIGHT = 50;
-const PRIMARY_COLOR = "#7e1316";
-const SECONDARY_COLOR = "#ffb100";
+const PRIMARY_COLOR = getConfig().theme?.primary || "#7e1316";
+const SECONDARY_COLOR = getConfig().theme?.secondary || "#ffb100";
 const SELECTED_ITEM = "rgba(0,0,0,0.3)";
 export default createMuiTheme({
   overrides: {

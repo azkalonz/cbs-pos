@@ -1,25 +1,46 @@
 import MaterialTable from "material-table";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { connect } from "react-redux";
 import Api from "../utils/api";
 import fetchData from "../utils/fetch";
 import Sales from "../components/Sales";
+import { Product } from "../utils/products";
 
 function Products(props) {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const defaultHeaders = useMemo(
+    () => [
+      { title: "Product ID", field: "product_id" },
+      { title: "Name", field: "product_name" },
+      { title: "Quantity", field: "quantity" },
+      {
+        title: "Price",
+        field: "price",
+        type: "currency",
+        currencySetting: {
+          currencyCode: "PHP",
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 2,
+        },
+      },
+    ],
+    []
+  );
   useEffect(() => {
     fetchData({
       before: () => setLoading(true),
       send: async () => await Api.get("/products"),
       after: (data) => {
         setProducts(
-          data?.map((q) => ({
-            ...q,
-            quantity: !q.quantity ? 0 : q.quantity,
-            product_name: q.product_name?.replace("&quot;", '"'),
-            price: parseInt(q.price) || 0,
-          })) || []
+          Product.ignore(
+            data?.map((q) => ({
+              ...q,
+              quantity: !q.quantity ? 0 : q.quantity,
+              product_name: q.product_name?.replace("&quot;", '"'),
+              price: parseInt(q.price) || 0,
+            })) || []
+          )
         );
         setLoading(false);
       },
@@ -29,21 +50,7 @@ function Products(props) {
     <React.Fragment>
       <Sales {...props} />
       <MaterialTable
-        columns={[
-          { title: "ID", field: "product_id" },
-          { title: "Name", field: "product_name" },
-          { title: "Quantity", field: "quantity" },
-          {
-            title: "Price",
-            field: "price",
-            type: "currency",
-            currencySetting: {
-              currencyCode: "PHP",
-              minimumFractionDigits: 0,
-              maximumFractionDigits: 2,
-            },
-          },
-        ]}
+        columns={defaultHeaders}
         data={products}
         isLoading={loading}
         title="Products"
