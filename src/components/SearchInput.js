@@ -155,7 +155,7 @@ export function SearchProduct(props) {
                 <Typography className="title">Results</Typography>
               </Box>
               <Divider />
-              {!!result.length && (
+              {!!result?.length && (
                 <Box maxHeight="70vh" overflow="auto">
                   {result.map((product, i) => {
                     if (!product) return null;
@@ -177,7 +177,7 @@ export function SearchProduct(props) {
                   })}
                 </Box>
               )}
-              {!result.length && (
+              {!result?.length && (
                 <Box p={3} textAlign="center">
                   <Typography className="title2">Nothing found</Typography>
                 </Box>

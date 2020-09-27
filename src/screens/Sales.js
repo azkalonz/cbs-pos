@@ -115,8 +115,8 @@ function Sales(props) {
   useEffect(() => {
     if (sales?.length && !(query.from && query.to)) {
       setDate({
-        from: moment(sales[0].entry_date_orig).format("YYYY-MM-DDThh:mm"),
-        to: moment().format("YYYY-MM-DDThh:mm"),
+        from: moment(sales[0].entry_date_orig).format("YYYY-MM-DDT01:00"),
+        to: moment().format("YYYY-MM-DDT24:00"),
       });
     }
   }, [sales]);
@@ -216,8 +216,8 @@ export function DateFilter(props) {
   );
   const todaysSales = useCallback(() => {
     setDate({
-      from: moment().format("YYYY-MM-DDThh:mm"),
-      to: moment().format("YYYY-MM-DDThh:mm"),
+      from: moment().format("YYYY-MM-DDT01:00"),
+      to: moment().format("YYYY-MM-DDT24:00"),
     });
   }, []);
   const onSave = useCallback(() => {
