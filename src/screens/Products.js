@@ -11,9 +11,18 @@ function Products(props) {
   const [loading, setLoading] = useState(true);
   const defaultHeaders = useMemo(
     () => [
-      { title: "Product ID", field: "product_id" },
       { title: "Name", field: "product_name" },
       { title: "Quantity", field: "quantity" },
+	{
+        title: "Cost",
+        field: "cost_per_unit",
+        type: "currency",
+        currencySetting: {
+          currencyCode: "PHP",
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 2,
+        },
+      },
       {
         title: "Price",
         field: "price",

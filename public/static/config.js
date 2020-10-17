@@ -28,6 +28,6 @@ window.Config = {
     },
   },
   API: {
-    domain: "https://site.test",
+    domain: "https://cebubake-api.ngrok.io",
   },
 };
