@@ -16,6 +16,7 @@ import Header from "./components/Header";
 import NavBar from "./components/NavBar";
 import Sales from "./screens/Sales";
 import Sale from "./screens/Sale";
+import Backup from "./screens/Backup";
 
 export function getConfig() {
   return window.Config;
@@ -53,6 +54,7 @@ function App() {
                 />
                 <Route exact path="/sales/:sales_id?" component={Sale} />
                 <Route exact path="/dashboard" component={Home} />
+                <Route exact path="/backup" component={Backup} />
                 <Route
                   exact
                   path="/login"

@@ -28,6 +28,12 @@ window.Config = {
     },
   },
   API: {
-    domain: "https://cebubake-api.ngrok.io",
+    domain: "https://site.test",
+  },
+  backup: {
+    host: "http://localhost",
+    user: "root",
+    pass: "",
+    table: "nenpos",
   },
 };
