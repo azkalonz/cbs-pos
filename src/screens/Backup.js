@@ -4,6 +4,7 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
+  LinearProgress,
   TextField,
   Typography,
 } from "@material-ui/core";
@@ -13,10 +14,16 @@ import Api from "../utils/api";
 import fetchData from "../utils/fetch";
 
 let form = {};
+function preventExit(ev) {
+  ev.preventDefault();
+  return (ev.returnValue = "Are you sure you want to close?");
+}
 function Backup(props) {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("Copying database please wait...");
   const startBackUp = useCallback(() => {
+    window.addEventListener("beforeunload", preventExit);
+
     fetchData({
       before: () => {
         setLoading(true);
@@ -33,6 +40,7 @@ function Backup(props) {
               body: form,
             }),
           after: () => {
+            window.removeEventListener("beforeunload", preventExit);
             setLoading(false);
             alert("Success");
           },
@@ -48,6 +56,7 @@ function Backup(props) {
       <Dialog open={loading}>
         <Box position="relative">
           <DialogTitle>
+            <LinearProgress />
             <Typography variant="h5">{status}</Typography>
             <Typography variant="body1" color="textSecondary">
               Don't close this tab
