@@ -18,6 +18,18 @@ body {
   white-space: pre;
 }
 
+.center-all {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
 .card {
   min-height: 180px;
   min-width: 380px;
@@ -106,5 +118,18 @@ body {
 tr {
   font-family: Arial, Helvetica, sans-serif;
   white-space: pre;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0;
+  /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+  /* Firefox */
 }
 /*# sourceMappingURL=style.css.map */

@@ -1,22 +1,23 @@
-import { Box, ThemeProvider, Typography } from "@material-ui/core";
+import { Box, ThemeProvider } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import Product from "./screens/Product";
-import Products from "./screens/Products";
+import Header from "./components/Header";
+import LayoutProvider from "./components/LayoutProvider";
+import Loader from "./components/Loader";
+import NavBar from "./components/NavBar";
+import Backup from "./screens/Backup";
 import Home from "./screens/Home";
 import Login from "./screens/Login";
 import PageNotFound from "./screens/PageNotFound";
+import Product from "./screens/Product";
+import Products from "./screens/Products";
+import Sale from "./screens/Sale";
+import Sales from "./screens/Sales";
+import Transactions from "./screens/Transactions";
 import Theme from "./styles";
 import "./styles/style.css";
 import Api from "./utils/api";
 import store from "./utils/store";
-import Loader from "./components/Loader";
-import LayoutProvider from "./components/LayoutProvider";
-import Header from "./components/Header";
-import NavBar from "./components/NavBar";
-import Sales from "./screens/Sales";
-import Sale from "./screens/Sale";
-import Backup from "./screens/Backup";
 
 export function getConfig() {
   return window.Config;
@@ -55,6 +56,7 @@ function App() {
                 <Route exact path="/sales/:sales_id?" component={Sale} />
                 <Route exact path="/dashboard" component={Home} />
                 <Route exact path="/restore" component={Backup} />
+                <Route exact path="/transactions" component={Transactions} />
                 <Route
                   exact
                   path="/login"

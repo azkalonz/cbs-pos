@@ -42,6 +42,26 @@ const Api = {
       })
       .then((resp) => resp.data);
   },
+  delete: (ENDPOINT, params = {}) => {
+    return axios
+      .delete(DOMAIN + ENDPOINT, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + Api.token,
+          ...params.headers,
+        },
+        onUploadProgress: (progressEvent) =>
+          params.onUploadProgress
+            ? params.onUploadProgress(progressEvent)
+            : progressEvent,
+        cancelToken: new axios.CancelToken(function executor(c) {
+          if (params.cancelToken) params.cancelToken(c);
+        }),
+        ...params.config,
+      })
+      .then((resp) => resp.data);
+  },
   auth: async (callback = {}) => {
     if (localStorage["auth"]) {
       let u = JSON.parse(localStorage["auth"]);

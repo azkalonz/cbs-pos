@@ -83,7 +83,7 @@ export function SearchProduct(props) {
         window.clearTimeout(window.searching);
         window.searching = setTimeout(() => {
           searchProduct(query);
-        }, 1000);
+        }, 500);
       }
     },
     [loading, searchProduct]
@@ -103,12 +103,16 @@ export function SearchProduct(props) {
   return (
     <Box
       position="relative"
-      style={{ ...(props.style || {}), zIndex: 2 }}
+      style={{ ...(props.style || {}), zIndex: 11 }}
       display="flex"
       className={props.fullWidth && isFocused ? "full-width-search" : ""}
-      justifyContent="center"
+      justifyContent={props.align || "center"}
     >
-      <Box position="relative" display="flex" justifyContent="center">
+      <Box
+        position="relative"
+        display="flex"
+        justifyContent={props.align || "center"}
+      >
         <TextField
           ref={searchRef}
           type="text"
@@ -164,7 +168,13 @@ export function SearchProduct(props) {
                       <ListItem
                         button
                         key={i}
-                        onClick={() => productDetails(product)}
+                        onClick={() => {
+                          if (!props.onClick) {
+                            productDetails(product);
+                          } else if (product) {
+                            props.onClick(product, resetSearch);
+                          }
+                        }}
                       >
                         <ListItemText
                           primary={product_name}
