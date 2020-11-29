@@ -21,21 +21,23 @@ function preventExit(ev) {
 }
 function Backup(props) {
   const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState("Copying database please wait...");
+  const [status, setStatus] = useState("Restoring database please wait...");
   const startBackUp = useCallback(() => {
     window.addEventListener("beforeunload", preventExit);
 
     fetchData({
       before: () => {
         setLoading(true);
-        setStatus("Copying database please wait...");
+        setStatus("Restoring database please wait...");
       },
-      send: async () => await Api.get("/backup"),
+      send: async () =>
+        await Api.post("/restore", {
+          body: form,
+        }),
       after: (data) => {
-        let blob = new Blob([data], {
-          type: "application/octet-stream",
-        });
-        FileSaver.saveAs(blob, "backup.sql");
+        if (data?.success) {
+          alert("Sucess");
+        }
         window.removeEventListener("beforeunload", preventExit);
         setLoading(false);
       },
@@ -76,7 +78,6 @@ function Backup(props) {
               variant="outlined"
               label="Host"
               onChange={(e) => (form["host"] = e.target.value)}
-              disabled={true}
             />
             <br />
             <br />
@@ -85,7 +86,6 @@ function Backup(props) {
               variant="outlined"
               label="Username"
               onChange={(e) => (form["user"] = e.target.value)}
-              disabled={true}
             />
             <br />
             <br />
@@ -94,7 +94,6 @@ function Backup(props) {
               variant="outlined"
               label="Password"
               onChange={(e) => (form["pass"] = e.target.value)}
-              disabled={true}
             />
             <br />
             <br />
@@ -103,12 +102,11 @@ function Backup(props) {
               variant="outlined"
               label="Table"
               onChange={(e) => (form["table"] = e.target.value)}
-              disabled={true}
             />
             <br />
             <br />
             <Button variant="contained" color="primary" onClick={startBackUp}>
-              Backup
+              Restore
             </Button>
           </Box>
         </fieldset>

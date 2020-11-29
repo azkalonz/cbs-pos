@@ -21,7 +21,7 @@ export const getCurrentMenu = (path) => {
 export const dashboardMenu = [
   createMenu("Products", ["/products", "/"]),
   createMenu("Sales", ["/sales"]),
-  createMenu("Backup", ["/backup"]),
+  createMenu("Restore", ["/restore"]),
 ];
 function NavBar(props) {
   const { pathname } = props.history?.location || {};
