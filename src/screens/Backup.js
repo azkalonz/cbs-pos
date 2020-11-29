@@ -12,7 +12,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import { getConfig } from "../App";
 import Api from "../utils/api";
 import fetchData from "../utils/fetch";
-
+import moment from "moment";
+var FileSaver = require("file-saver");
 let form = {};
 function preventExit(ev) {
   ev.preventDefault();
@@ -29,22 +30,14 @@ function Backup(props) {
         setLoading(true);
         setStatus("Copying database please wait...");
       },
-      send: async () => await Api.post("/backup"),
-      after: () => {
-        fetchData({
-          before: () => {
-            setStatus("Restoring database please wait...");
-          },
-          send: async () =>
-            await Api.post("/restore", {
-              body: form,
-            }),
-          after: () => {
-            window.removeEventListener("beforeunload", preventExit);
-            setLoading(false);
-            alert("Success");
-          },
+      send: async () => await Api.get("/backup"),
+      after: (data) => {
+        let blob = new Blob([data], {
+          type: "application/octet-stream",
         });
+        FileSaver.saveAs(blob, "backup-" + moment().format("M-D-y") + ".sql");
+        window.removeEventListener("beforeunload", preventExit);
+        setLoading(false);
       },
     });
   }, [loading]);
@@ -83,6 +76,7 @@ function Backup(props) {
               variant="outlined"
               label="Host"
               onChange={(e) => (form["host"] = e.target.value)}
+              disabled={true}
             />
             <br />
             <br />
@@ -91,6 +85,7 @@ function Backup(props) {
               variant="outlined"
               label="Username"
               onChange={(e) => (form["user"] = e.target.value)}
+              disabled={true}
             />
             <br />
             <br />
@@ -99,6 +94,7 @@ function Backup(props) {
               variant="outlined"
               label="Password"
               onChange={(e) => (form["pass"] = e.target.value)}
+              disabled={true}
             />
             <br />
             <br />
@@ -107,6 +103,7 @@ function Backup(props) {
               variant="outlined"
               label="Table"
               onChange={(e) => (form["table"] = e.target.value)}
+              disabled={true}
             />
             <br />
             <br />
