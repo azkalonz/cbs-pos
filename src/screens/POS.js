@@ -41,6 +41,7 @@ function POS(props) {
           product_name: product.product_name,
           quantity: 1,
           price: product.price,
+          code: product.code,
         };
         setCart([product, ...cart]);
         resetSearch();
@@ -363,6 +364,9 @@ export function POSHistory(props) {
                 width="100%"
               >
                 <Typography style={{ fontWeight: "bold", flex: 1 }}>
+                  Code
+                </Typography>{" "}
+                <Typography style={{ fontWeight: "bold", flex: 1 }}>
                   Name
                 </Typography>
                 <Typography style={{ fontWeight: "bold", flex: 1 }}>
@@ -374,7 +378,13 @@ export function POSHistory(props) {
               </Box>
             </ListItem>
             {selectedTransaction?.transaction_meta?.map((product) => {
-              const { product_id, product_name, quantity, price } = product;
+              const {
+                product_id,
+                product_name,
+                quantity,
+                price,
+                code,
+              } = product;
               return (
                 <ListItem
                   key={product_id}
@@ -387,6 +397,7 @@ export function POSHistory(props) {
                     justifyContent="space-between"
                     width="100%"
                   >
+                    <Typography style={{ flex: 1 }}>{code}</Typography>
                     <Typography style={{ flex: 1 }}>{product_name}</Typography>
                     <Typography style={{ flex: 1 }}>{quantity}</Typography>
                     <Typography style={{ flex: 1 }}>
@@ -402,6 +413,9 @@ export function POSHistory(props) {
                 justifyContent="space-between"
                 width="100%"
               >
+                <Typography
+                  style={{ fontWeight: "bold", flex: 1 }}
+                ></Typography>
                 <Typography
                   style={{ fontWeight: "bold", flex: 1 }}
                 ></Typography>
@@ -424,6 +438,9 @@ export function POSHistory(props) {
                 <Typography
                   style={{ fontWeight: "bold", flex: 1 }}
                 ></Typography>
+                <Typography
+                  style={{ fontWeight: "bold", flex: 1 }}
+                ></Typography>
                 <Typography style={{ fontWeight: "bold", flex: 1 }}>
                   Grand Total
                 </Typography>
@@ -440,6 +457,9 @@ export function POSHistory(props) {
                 justifyContent="space-between"
                 width="100%"
               >
+                <Typography
+                  style={{ fontWeight: "bold", flex: 1 }}
+                ></Typography>
                 <Typography
                   style={{ fontWeight: "bold", flex: 1 }}
                 ></Typography>
