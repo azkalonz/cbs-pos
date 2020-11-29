@@ -35,7 +35,7 @@ function Backup(props) {
         let blob = new Blob([data], {
           type: "application/octet-stream",
         });
-        FileSaver.saveAs(blob, "backup-" + moment().format("M-D-y") + ".sql");
+        FileSaver.saveAs(blob, "backup.sql");
         window.removeEventListener("beforeunload", preventExit);
         setLoading(false);
       },
