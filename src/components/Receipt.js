@@ -36,7 +36,7 @@ function Receipt(props) {
             {getOR(
               lastOrder?.transaction_id != undefined
                 ? lastOrder.transaction_id + 1
-                : 0
+                : 1
             )}
           </td>
         </tr>
