@@ -32,7 +32,10 @@ function Receipt(props) {
         </tr>
         <tr>
           <td colSpan={4} align="left">
-            SO : #{getOR(lastOrder.transaction_id + 1)}
+            SO : #
+            {getOR(
+              lastOrder?.transaction_id ? lastOrder.transaction_id + 1 : 1
+            )}
           </td>
         </tr>
         <tr>
