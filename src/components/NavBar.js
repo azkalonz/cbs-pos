@@ -22,7 +22,7 @@ export const dashboardMenu = [
   createMenu("Products", ["/products", "/"]),
   createMenu("Sales", ["/sales"]),
   createMenu("Transactions", ["/transactions"]),
-  createMenu("Restore", ["/restore"]),
+  createMenu("Backup", ["/backup"]),
 ];
 function NavBar(props) {
   const { pathname } = props.history?.location || {};

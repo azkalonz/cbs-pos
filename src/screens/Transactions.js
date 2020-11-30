@@ -1,8 +1,9 @@
 import { Box, Tab, Tabs } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { qs } from "./Backup";
 import POS, { POSHistory } from "./POS";
 
-function TabPanel(props) {
+export function TabPanel(props) {
   const { index, value, saveState } = props;
   return saveState ? (
     <Box style={{ display: index === value ? "block" : "none" }}>
@@ -15,9 +16,24 @@ function TabPanel(props) {
 
 function Transactions(props) {
   const [tabValue, setTabvalue] = useState(0);
+  const query = qs.parse(window.location.search);
+  useEffect(() => {
+    let tab = parseInt(query.tab);
+    if (!isNaN(tab)) {
+      setTabvalue(tab);
+    }
+  }, [query.tab]);
   return (
     <Box>
-      <Tabs value={tabValue} onChange={(e, val) => setTabvalue(val)}>
+      <Tabs
+        value={tabValue}
+        onChange={(e, val) => {
+          setTabvalue(val);
+          props.history.push({
+            search: "tab=" + val,
+          });
+        }}
+      >
         <Tab label="Create Transaction" />
         <Tab label="View History" />
       </Tabs>

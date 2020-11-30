@@ -31,7 +31,7 @@ window.Config = {
     domain: "https://site.test",
   },
   backup: {
-    host: "http://localhost",
+    host: "localhost:3306",
     user: "root",
     pass: "",
     table: "nenpos",
