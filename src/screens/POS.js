@@ -411,6 +411,7 @@ export function POSHistory(props) {
             lastOrder={selectedTransaction}
             cart={selectedTransaction.transaction_meta}
             grantTotal={selectedTransaction.total}
+            isCurrent={true}
           />
           <br />
           <Typography style={{ fontWeight: "bold" }}>Details</Typography>

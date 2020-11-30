@@ -42,7 +42,10 @@ function Receipt(props) {
         </tr>
         <tr>
           <td colSpan={4} align="left">
-            Date : {moment().format("L hh:mm A")}
+            Date :{" "}
+            {props.isCurrent
+              ? moment(lastOrder.created_at).format("L hh:mm A")
+              : moment().format("L hh:mm A")}
           </td>
         </tr>
         <tr>
