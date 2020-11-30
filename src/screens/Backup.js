@@ -69,7 +69,7 @@ function BackupData(props) {
         setLoading(true);
         setStatus("Copying database please wait...");
       },
-      send: async () => await Api.get("/backup"),
+      send: async () => await Api.post("/backup"),
       after: (data) => {
         let blob = new Blob([data], {
           type: "application/octet-stream",
