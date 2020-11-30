@@ -132,4 +132,29 @@ input[type=number] {
   -moz-appearance: textfield;
   /* Firefox */
 }
+
+#receipt {
+  width: 250px;
+  margin: 0 auto;
+}
+
+#receipt .receipt-header td {
+  border: 1px dashed black;
+  border-left: none;
+  border-right: none;
+}
+
+#receipt tr td {
+  font-family: monospace;
+  white-space: break-spaces;
+  word-break: break-word;
+}
+
+#receipt .receipt-footer td {
+  border-top: 1px dashed black;
+}
+
+#receipt .received-by td {
+  padding-top: 40px;
+}
 /*# sourceMappingURL=style.css.map */

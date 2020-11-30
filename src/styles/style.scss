@@ -98,3 +98,29 @@ input::-webkit-inner-spin-button {
 input[type=number] {
     -moz-appearance:textfield; /* Firefox */
 }
+#receipt {
+  width: 250px;
+  margin: 0 auto;
+  .receipt-header {
+    td {
+      border: 1px dashed black;
+      border-left: none;
+      border-right: none;
+    }
+  }
+  tr td {
+    font-family: monospace;
+    white-space: break-spaces;
+    word-break: break-word;
+  }
+  .receipt-footer {
+    td {
+      border-top: 1px dashed black;
+    }
+  }
+  .received-by {
+    td {
+      padding-top: 40px;
+    }
+  }
+}

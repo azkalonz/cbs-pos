@@ -55,8 +55,9 @@ function App() {
                 />
                 <Route exact path="/sales/:sales_id?" component={Sale} />
                 <Route exact path="/dashboard" component={Home} />
-                <Route exact path="/transactions" component={Transactions} />
                 <Route exact path="/backup" component={Backup} />
+
+                <Route exact path="/transactions" component={Transactions} />
                 <Route
                   exact
                   path="/login"

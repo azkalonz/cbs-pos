@@ -12,7 +12,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import { getConfig } from "../App";
 import Api from "../utils/api";
 import fetchData from "../utils/fetch";
-import moment from "moment";
 var FileSaver = require("file-saver");
 let form = {};
 function preventExit(ev) {

@@ -20,7 +20,7 @@ export const qs = require("query-string");
 
 var FileSaver = require("file-saver");
 let form = {};
-function preventExit(ev) {
+export function preventExit(ev) {
   ev.preventDefault();
   return (ev.returnValue = "Are you sure you want to close?");
 }

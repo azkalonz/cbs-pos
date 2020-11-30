@@ -21,7 +21,7 @@ import Api from "../utils/api";
 function Header(props) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const { first_name, last_name } = props.userInfo || {};
+  const { first_name, username } = props.userInfo || {};
   return (
     <AppBar
       variant="outlined"
@@ -58,9 +58,7 @@ function Header(props) {
                       src="/"
                       alt={first_name}
                     />
-                    <Typography className="title-2">
-                      {first_name + " " + last_name}
-                    </Typography>
+                    <Typography className="title-2">{username}</Typography>
                   </MenuItem>
                   <MenuItem
                     onClick={() => {

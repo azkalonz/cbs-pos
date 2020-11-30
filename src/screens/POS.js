@@ -22,8 +22,25 @@ import { SearchProduct } from "../components/SearchInput";
 import Api from "../utils/api";
 import fetchData from "../utils/fetch";
 import moment from "moment";
+import { preventExit } from "./Backup";
+import print from "print-js";
+import Receipt, { getOR } from "../components/Receipt";
+const html2canvas = require("html2canvas");
 
 var currencyFormatter = require("currency-formatter");
+
+const printReceipt = (callback = () => {}) => {
+  html2canvas(document.querySelector("#receipt"), {
+    dpi: 144,
+  }).then((canvas) => {
+    let url = canvas.toDataURL("image/png");
+    callback();
+    print({
+      printable: url,
+      type: "image",
+    });
+  });
+};
 
 function POS(props) {
   const [page, setPage] = useState(1);
@@ -31,6 +48,7 @@ function POS(props) {
   const [cart, setCart] = useState([]);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [lastOrder, setLastOrder] = useState({});
   const noteRef = useRef();
   const amountRef = useRef();
   const addToCart = useCallback(
@@ -91,6 +109,14 @@ function POS(props) {
   const continueTransaction = useCallback(() => {
     if (cart.length) {
       setDialogOpen(true);
+      setSaving(true);
+      fetchData({
+        send: async () => await Api.get("/last-order"),
+        after: (data) => {
+          setSaving(false);
+          setLastOrder(data);
+        },
+      });
     } else {
       alert("Table is empty");
     }
@@ -109,9 +135,11 @@ function POS(props) {
         send: async () => await Api.post("/transaction", { body: transaction }),
         after: (data) => {
           if (data) {
-            setDialogOpen(false);
-            setCart([]);
-            setPage(1);
+            printReceipt(() => {
+              setDialogOpen(false);
+              setCart([]);
+              setPage(1);
+            });
           }
           setSaving(false);
         },
@@ -121,6 +149,16 @@ function POS(props) {
   const getPageCount = useCallback(() => {
     return Math.ceil(cart.length / pageSize);
   }, [cart, pageSize]);
+  useEffect(() => {
+    if (cart.length) {
+      window.addEventListener("beforeunload", preventExit);
+    } else {
+      window.removeEventListener("beforeunload", preventExit);
+    }
+    return () => {
+      window.removeEventListener("beforeunload", preventExit);
+    };
+  }, [cart]);
   return (
     <Box>
       <Dialog
@@ -134,6 +172,11 @@ function POS(props) {
           {saving && <LinearProgress />}
         </DialogTitle>
         <DialogContent>
+          <Receipt
+            lastOrder={lastOrder}
+            cart={cart}
+            grantTotal={getGrandTotal()}
+          />
           <TextField
             disabled={saving}
             multiline
@@ -159,7 +202,7 @@ function POS(props) {
             disabled={saving}
             onClick={checkout}
           >
-            OK
+            Print
           </Button>
         </DialogActions>
       </Dialog>
@@ -356,6 +399,21 @@ export function POSHistory(props) {
           {saving && <LinearProgress />}
         </DialogTitle>
         <DialogContent>
+          <Box>
+            <Typography style={{ fontWeight: "bold" }}>Note</Typography>
+            <Typography>
+              {selectedTransaction.note ? selectedTransaction.note : "Empty"}
+            </Typography>
+          </Box>
+          <br />
+          <Typography style={{ fontWeight: "bold" }}>Receipt</Typography>
+          <Receipt
+            lastOrder={selectedTransaction}
+            cart={selectedTransaction.transaction_meta}
+            grantTotal={selectedTransaction.total}
+          />
+          <br />
+          <Typography style={{ fontWeight: "bold" }}>Details</Typography>
           <List>
             <ListItem>
               <Box
@@ -480,12 +538,19 @@ export function POSHistory(props) {
         </DialogContent>
         <DialogActions>
           <Button
-            color="primary"
             variant="contained"
             onClick={() => deleteTransaction(selectedTransaction)}
             disabled={saving}
           >
             Delete
+          </Button>
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={() => printReceipt()}
+            disabled={saving}
+          >
+            Print
           </Button>
           <Button
             disabled={saving}
@@ -505,6 +570,11 @@ export function POSHistory(props) {
           setDialogOpen(true);
         }}
         columns={[
+          {
+            title: "ID",
+            field: "transaction_id",
+            render: (row) => getOR(row.transaction_id),
+          },
           {
             title: "Date",
             field: "date",
